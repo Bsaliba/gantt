@@ -84,7 +84,9 @@ export default class Gantt {
             date_format: 'YYYY-MM-DD',
             popup_trigger: 'click',
             custom_popup_html: null,
-            language: 'en'
+            language: 'en',
+            start_date: null,
+            end_date: null
         };
         this.options = Object.assign({}, default_options, options);
     }
@@ -236,6 +238,20 @@ export default class Gantt {
             this.gantt_start = date_utils.add(this.gantt_start, -1, 'month');
             this.gantt_end = date_utils.add(this.gantt_end, 1, 'month');
         }
+
+        if(!!this.options.start_date) {
+            let sd = date_utils.parse(this.options.start_date);
+            if(!!sd) {
+                this.gantt_start = sd;
+            }
+        }
+
+        if(!!this.options.end_date) {
+            let ed = date_utils.parse(this.options.end_date);
+            if(!!ed) {
+                this.gantt_end = ed;
+            }
+        }
     }
 
     setup_date_values() {
@@ -317,7 +333,7 @@ export default class Gantt {
         });
 
         $.attr(this.$svg, {
-            height: grid_height + this.options.padding + 100,
+            height: grid_height,
             width: '100%'
         });
     }
